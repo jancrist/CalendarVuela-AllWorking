@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de Clientes</title>
+</head>
+<body>
+    <h1>Tabla de Clientes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Horario</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Teléfono</th>
+                <th>Status</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for horario, clientes in grouped_clients.items() %}
+                <tr>
+                    <td rowspan="{{ clientes|length }}">{{ horario }}</td>
+                    {% for cliente in clientes %}
+                        <td>{{ cliente['nombre'] }}</td>
+                        <td>{{ cliente['cantidad'] }}</td>
+                        <td>{{ cliente['telefono'] }}</td>
+                        <td>{{ cliente['status'] }}</td>
+                        <td><a href="/editar/{{ cliente['id'] }}">Editar</a></td>
+                    </tr>
+                    {% if not loop.last %}
+                        <tr>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/crear">Crear Nuevo Cliente</a>
+</body>
+</html>

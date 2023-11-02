@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear o Seleccionar Fecha</title>
+</head>
+<body>
+    <h1>Crear o Seleccionar Fecha</h1>
+    
+    <form method="POST" action="/crear_fecha">
+        <label for="fecha">Crear Nueva Fecha (YYYY-MM-DD):</label>
+        <input type="text" id="fecha" name="fecha" placeholder="Ejemplo: 2023-08-08" required>
+        <input type="submit" value="Crear Fecha">
+    </form>
+
+    <h2>Seleccionar Fecha Existente:</h2>
+    <ul>
+        {% for date in dates %}
+            <li><a href="/fecha/{{ date['id'] }}">{{ date['fecha'] }}</a></li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

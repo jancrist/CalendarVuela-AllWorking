@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabla de Clientes</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Delegación de eventos para los selectores de estado
+            $("table").on("change", "select[name='status']", function() {
+                var cliente_id = $(this).data("cliente-id");
+                var nuevoEstado = $(this).val();
+    
+                $.ajax({
+                    url: '/editar_status_cliente/' + cliente_id,
+                    type: 'POST',
+                    data: { status: nuevoEstado },
+                    success: function(response) {
+                        console.log("Estado actualizado con éxito: " + nuevoEstado);
+                    },
+                    error: function(error) {
+                        console.error("Error al actualizar el estado: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Tabla de Clientes</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Horario</th>
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Teléfono</th>
+                <th>Status</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set current_horario = '' %}
+            {% for client in clients|sort(attribute='horario') %}
+                {% if current_horario != client['horario'] %}
+                    {% if current_horario != '' %}
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>{{ client['horario'] }}</td>
+                        <td>{{ client['nombre'] }}</td>
+                        <td>{{ client['cantidad'] }}</td>
+                        <td>{{ client['telefono'] }}</td>
+                        <td>
+                            <!-- Campo dropdown para modificar el status -->
+                            <select name="status" data-cliente-id="{{ client['id'] }}">
+                                <option value="Confirmado" {% if client['status'] == 'Confirmado' %}selected{% endif %}>Confirmado</option>
+                                <option value="Retrasado" {% if client['status'] == 'Retrasado' %}selected{% endif %}>Retrasado</option>
+                                <option value="S/ Novedad" {% if client['status'] == 'S/ Novedad' %}selected{% endif %}>S/ Novedad</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('editar_cliente', cliente_id=client['id']) }}">Editar</a>
+                        </td>
+                    </tr>
+                    {% set current_horario = client['horario'] %}
+                {% else %}
+                    <td>{{ client['nombre'] }}</td>
+                    <td>{{ client['cantidad'] }}</td>
+                    <td>{{ client['telefono'] }}</td>
+                    <td>
+                        <!-- Campo dropdown para modificar el status -->
+                        <select name="status" data-cliente-id="{{ client['id'] }}">
+                            <option value="Confirmado" {% if client['status'] == 'Confirmado' %}selected{% endif %}>Confirmado</option>
+                            <option value="Retrasado" {% if client['status'] == 'Retrasado' %}selected{% endif %}>Retrasado</option>
+                            <option value="S/ Novedad" {% if client['status'] == 'S/ Novedad' %}selected{% endif %}>S/ Novedad</option>
+                        </select>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('editar_cliente', cliente_id=client['id']) }}">Editar</a>
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('crear_cliente', date_id=date_id) }}">Crear Nuevo Cliente</a>
+    <a href="/">Volver a la lista de fechas</a>
+</body>
+</html>

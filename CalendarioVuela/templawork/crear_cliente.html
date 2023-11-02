@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Cliente</title>
+</head>
+<body>
+    <h1>Crear Nuevo Cliente</h1>
+    
+    
+
+    <form method="POST" action="/crear_cliente/{{ date_id }}">
+        <label for="horario">Horario:</label>
+        <input type="text" id="horario" name="horario" required>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="cantidad">Cantidad:</label>
+        <input type="text" id="cantidad" name="cantidad" required>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required>
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" required>
+        <input type="submit" value="Crear Cliente">
+    </form>
+
+    <a href="/fecha/{{ date_id }}">Volver a la tabla de clientes</a>
+</body>
+</html>

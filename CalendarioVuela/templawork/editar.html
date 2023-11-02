@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Cliente</title>
+</head>
+<body>
+    <h1>Editar Cliente</h1>
+
+    <form method="POST">
+        <input type="hidden" name="cliente_id" value="{{ cliente['id'] }}">
+        <label for="horario">Horario:</label>
+        <input type="text" name="horario" value="{{ cliente['horario'] }}"><br>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" value="{{ cliente['nombre'] }}"><br>
+
+        <label for="cantidad">Cantidad:</label>
+        <input type="text" name="cantidad" value="{{ cliente['cantidad'] }}"><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" name="telefono" value="{{ cliente['telefono'] }}"><br>
+
+        
+        <input type="hidden" name="status" value="{{ cliente['status'] }}"><br>
+
+        <input type="submit" value="Guardar Cambios">
+    </form>
+
+    <a href="{{ url_for('ver_tabla', date_id=cliente['fecha_id'], fecha_nombre=fecha_nombre) }}">Volver a la tabla de clientes</a>
+</body>
+</html>
